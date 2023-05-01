@@ -1,0 +1,26 @@
+class Solution:
+    def maxAreaOfIsland(self, matrix: List[List[int]]) -> int:
+        def dfs(i,j,n,m,matrix,visited):
+            visited[i][j]=True
+            s1,s2,s3,s4=0,0,0,0
+            if i+1<n and matrix[i+1][j]==1 and visited[i+1][j]==False:
+                s1=1+dfs(i+1,j,n,m,matrix,visited)
+            if i-1>=0 and matrix[i-1][j]==1 and visited[i-1][j]==False:
+                s2=1+dfs(i-1,j,n,m,matrix,visited)
+            if j+1<m and matrix[i][j+1]==1 and visited[i][j+1]==False:
+                s3=1+dfs(i,j+1,n,m,matrix,visited)
+            if j-1>=0 and matrix[i][j-1]==1 and visited[i][j-1]==False:
+                s4=1+dfs(i,j-1,n,m,matrix,visited)
+            return (s1+s2+s3+s4)
+        
+        n=len(matrix)
+        m=len(matrix[0])
+        visited=[[False for i in range(m)]for j in range(n)]
+        ans=[0]
+        for i in range(n):
+            for j in range(m):
+                if matrix[i][j]==1 and visited[i][j]==False:
+                    count=1+dfs(i,j,n,m,matrix,visited)
+                    ans.append(count)
+        
+        return max(ans)
